@@ -28,15 +28,15 @@ init();
 
 function init() {
   d3.csv("data/data_test1.csv", function(data) {
-    data.forEach(function(d) {
-      d["alignement marché"] = +d["alignement marché"];
-      d["différenciation"] = +d["différenciation"];
-      d["attractivité rétention"] = +d["attractivité rétention"];
-      d["collaboration"] = +d["collaboration"];
-      d["stratégie"] = +d["stratégie"];
-      d["agilité"] = +d["agilité"];
-      d["efficience"] = +d["efficience"];
+    data.forEach(function(d) {  
+      for (var prop in d) {
+        if(isNaN(d[prop])){ // makes sure we only convert the numbers 
+        } else {
+          d[prop] = +d[prop]; // makes sure numbers are numbers and not strings 
+        };
+      };
     });
+    console.log(data);
     var dataset = mycsv2json(data);
     RadarChart.draw(".chart-container", dataset);
   });
@@ -64,28 +64,3 @@ function mycsv2json(csv) {
   });
   return data;
 };
-
-// function csv2json(csv) {
-//   var data = [];
-//   var groups = []; // track unique groups
-//   csv.forEach(function(record) {
-//     var group = record.group;
-//     if (groups.indexOf(group) < 0) {
-//       groups.push(group); // push to unique groups tracking
-//       data.push({ // push group node in data
-//         group: group,
-//         axes: []
-//       });
-//     };
-//     data.forEach(function(d) {
-//       if (d.group === record.group) { // push record data into right group in data
-//         d.axes.push({
-//           axis: record.axis,
-//           value: parseInt(record.value),
-//           description: record.description
-//         });
-//       }
-//     });
-//   });
-//   return data;
-// };
