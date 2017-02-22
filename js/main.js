@@ -23,8 +23,8 @@ var data = [
   }
 ];
 
+var dataset = [];
 init();
-
 
 function init() {
   d3.csv("data/data_test1.csv", function(data) {
@@ -36,12 +36,33 @@ function init() {
         };
       };
     });
-    console.log(data);
-    var dataset = mycsv2json(data);
+    dataset = mycsv2json(data);
+    var myLegend = createLegend(dataset);
     RadarChart.draw(".chart-container", dataset);
   });
 }
 
+function createLegend(data) {
+  var legend = [];
+  data.forEach(function(d) {
+    // d3.select("#legend")
+    //   .append("div")
+    //     .attr('class', 'checkbox')
+    //   .append("label")
+    //     .text(d.className)
+    //   .append("input")
+    //     .attr("checked", true)
+    //     .attr('type','checkbox')
+    //     .attr('value',d.className);
+    $("#legend").append("<div class='checkbox'>\n<label>\n<input name='' onClick='updateSpider(this)' type='checkbox' checked='true' value='"+d.className+"'/>"+d.className+"</label></div>");
+    legend.push(d.className);
+  });
+  return legend; 
+};
+
+function updateSpider(input) {
+  console.log(input.value);
+};
 
 function mycsv2json(csv) {
   var data = []; // the array we will be filling
